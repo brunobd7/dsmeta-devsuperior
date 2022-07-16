@@ -7,7 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SaleService {
@@ -19,8 +21,15 @@ public class SaleService {
         return saleRepository.findAll();
     }
 
-    public Page<Sale> findSales(Pageable pageable){
-        return saleRepository.findAll(pageable);
+    public Page<Sale> findSales(LocalDate minDate, LocalDate maxDate ,Pageable pageable){
+
+      if(Objects.isNull(minDate))
+          minDate = LocalDate.now();
+
+      if(Objects.isNull(maxDate))
+          maxDate = LocalDate.now();
+
+        return saleRepository.findSales(minDate, maxDate, pageable);
     }
 
 }
