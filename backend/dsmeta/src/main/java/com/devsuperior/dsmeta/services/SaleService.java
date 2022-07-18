@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,15 +22,14 @@ public class SaleService {
         return saleRepository.findAll();
     }
 
-    public Page<Sale> findSales(LocalDate minDate, LocalDate maxDate ,Pageable pageable){
+    public Page<Sale> findSales(String minDate, String maxDate , Pageable pageable){
 
-      if(Objects.isNull(minDate))
-          minDate = LocalDate.now();
+        LocalDate today = LocalDate.now();
 
-      if(Objects.isNull(maxDate))
-          maxDate = LocalDate.now();
+        LocalDate min = ObjectUtils.isEmpty(minDate) ? today.minusDays(365) : LocalDate.parse(minDate);
+        LocalDate max = ObjectUtils.isEmpty(maxDate)? today : LocalDate.parse(maxDate);
 
-        return saleRepository.findSales(minDate, maxDate, pageable);
+        return saleRepository.findSales(min , max, pageable);
     }
 
 }

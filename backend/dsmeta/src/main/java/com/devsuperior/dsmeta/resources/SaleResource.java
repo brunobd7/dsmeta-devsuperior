@@ -21,8 +21,8 @@ public class SaleResource {
     private SaleService service;
 
     @GetMapping
-    public Page<Sale> findSales(@RequestParam(value = "minDate") LocalDate minDate,
-                                @RequestParam(value = "maxDate") LocalDate maxDate,
+    public Page<Sale> findSales(@RequestParam(value = "minDate") String minDate,
+                                @RequestParam(value = "maxDate") String maxDate,
                                 Pageable pageable){
         return service.findSales(minDate, maxDate, pageable);
     }
